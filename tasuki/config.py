@@ -3,7 +3,7 @@
 Search order:
 1. Explicitly provided path
 2. config/ in the current directory
-3. ~/.config/agent-harness/
+3. ~/.config/tasuki/
 4. Package-bundled defaults (tasuki/_defaults/)
 """
 
