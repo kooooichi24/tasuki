@@ -38,13 +38,14 @@ tasuki/
 ├── DESIGN.md              # 本設計書
 ├── README.md
 ├── pyproject.toml         # 依存関係
-├── config/
-│   ├── prompts/           # プランナー・ワーカー用システムプロンプト
-│   └── tasuki.yaml        # モデル・パス・並行数など
+├── .tasuki/
+│   └── config/
+│       ├── prompts/       # プランナー・ワーカー用システムプロンプト
+│       └── tasuki.yaml    # モデル・パス・並行数など
 ├── tasuki/
 │   ├── __init__.py
 │   ├── cli.py             # CLI エントリポイント（tasuki run / init / help）
-│   ├── config.py          # 設定ファイル探索（カレント → ~/.config/tasuki/ → パッケージ内）
+│   ├── config.py          # 設定ファイル探索（.tasuki/config/ → ~/.config/tasuki/ → パッケージ内）
 │   ├── llm.py             # LLM 呼び出し（Cursor CLI / OpenAI API + フォールバック + リトライ）
 │   ├── planner.py         # プランナーエージェント（ルート／サブ共通）
 │   ├── planner_registry.py # サブプランナー登録・永続化（sessions/<id>/planners.json）

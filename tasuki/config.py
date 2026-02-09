@@ -2,7 +2,7 @@
 
 Search order:
 1. Explicitly provided path
-2. config/ in the current directory
+2. .tasuki/config/ in the current directory
 3. ~/.config/tasuki/
 4. Package-bundled defaults (tasuki/_defaults/)
 """
@@ -22,7 +22,7 @@ _USER_CONFIG_DIR = Path.home() / ".config" / "tasuki"
 def _search_paths() -> list[Path]:
     """List of search paths for configuration files (in priority order)."""
     return [
-        Path.cwd() / "config",
+        Path.cwd() / ".tasuki" / "config",
         _USER_CONFIG_DIR,
         _DEFAULTS_DIR,
     ]
@@ -65,8 +65,8 @@ def load_prompt(name: str) -> str:
 
 
 def init_project(target: Path | None = None) -> Path:
-    """Copy config/ to the current directory (or target) to initialize."""
-    dest = (target or Path.cwd()) / "config"
+    """Copy .tasuki/config/ to the current directory (or target) to initialize."""
+    dest = (target or Path.cwd()) / ".tasuki" / "config"
     if dest.exists():
         raise FileExistsError(f"{dest} already exists. Aborted to avoid overwriting.")
     shutil.copytree(_DEFAULTS_DIR, dest)

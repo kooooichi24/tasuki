@@ -62,10 +62,10 @@ uv sync   # or pip install -e .
 tasuki init
 ```
 
-This generates `config/tasuki.yaml` and `config/prompts/`.  
-Config search order: `./config/` → `~/.config/tasuki/` → package defaults.
+This generates `.tasuki/config/tasuki.yaml` and `.tasuki/config/prompts/`.  
+Config search order: `./.tasuki/config/` → `~/.config/tasuki/` → package defaults.
 
-Edit `config/tasuki.yaml`:
+Edit `.tasuki/config/tasuki.yaml`:
 
 ### LLM Provider (Cursor CLI by default)
 
@@ -81,8 +81,8 @@ agent login
 
 ```yaml
 llm:
-  provider: cursor                    # cursor | openai
-  model: gpt-5.2-codex-xhigh         # Use CLI model IDs (see: agent --list-models)
+  provider: cursor # cursor | openai
+  model: gpt-5.2-codex-xhigh # Use CLI model IDs (see: agent --list-models)
 ```
 
 To use the OpenAI API instead, set `provider: openai` and configure `OPENAI_API_KEY`.
@@ -101,11 +101,11 @@ gpt-5.2-codex-xhigh → opus-4.6-thinking → auto
 ```yaml
 llm:
   fallback_models:
-    - opus-4.6-thinking               # Claude 4.6 Opus (Thinking)
-    - auto                            # Cursor's auto-select (last resort)
+    - opus-4.6-thinking # Claude 4.6 Opus (Thinking)
+    - auto # Cursor's auto-select (last resort)
   retry:
-    max_retries: 3                    # Retries per model
-    base_delay_sec: 2                 # Exponential backoff (2, 4, 8... sec)
+    max_retries: 3 # Retries per model
+    base_delay_sec: 2 # Exponential backoff (2, 4, 8... sec)
     max_delay_sec: 60
 ```
 
@@ -119,7 +119,7 @@ concurrency:
   max_workers: 2 # keep low to avoid hitting rate limits
 ```
 
-System prompts for planners/workers can be customized in `config/prompts/`.
+System prompts for planners/workers can be customized in `.tasuki/config/prompts/`.
 
 ## Usage
 

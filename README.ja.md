@@ -62,10 +62,10 @@ uv sync   # または pip install -e .
 tasuki init
 ```
 
-`config/tasuki.yaml` と `config/prompts/` が生成されます。  
-設定ファイルの探索順: カレントの `config/` → `~/.config/tasuki/` → パッケージ内デフォルト。
+`.tasuki/config/tasuki.yaml` と `.tasuki/config/prompts/` が生成されます。  
+設定ファイルの探索順: カレントの `.tasuki/config/` → `~/.config/tasuki/` → パッケージ内デフォルト。
 
-`config/tasuki.yaml` を編集します。
+`.tasuki/config/tasuki.yaml` を編集します。
 
 ### LLM プロバイダー（Cursor CLI がデフォルト）
 
@@ -81,8 +81,8 @@ agent login
 
 ```yaml
 llm:
-  provider: cursor                    # cursor | openai
-  model: gpt-5.2-codex-xhigh         # Cursor CLI のモデル ID を使用（確認: agent --list-models）
+  provider: cursor # cursor | openai
+  model: gpt-5.2-codex-xhigh # Cursor CLI のモデル ID を使用（確認: agent --list-models）
 ```
 
 OpenAI API を使う場合は `provider: openai` に変更し、`OPENAI_API_KEY` を設定してください。
@@ -101,11 +101,11 @@ gpt-5.2-codex-xhigh → opus-4.6-thinking → auto
 ```yaml
 llm:
   fallback_models:
-    - opus-4.6-thinking               # Claude 4.6 Opus (Thinking)
-    - auto                            # Cursor の自動選択（最終手段）
+    - opus-4.6-thinking # Claude 4.6 Opus (Thinking)
+    - auto # Cursor の自動選択（最終手段）
   retry:
-    max_retries: 3                    # 同一モデルでの最大リトライ回数
-    base_delay_sec: 2                 # エクスポネンシャルバックオフ（2, 4, 8...秒）
+    max_retries: 3 # 同一モデルでの最大リトライ回数
+    base_delay_sec: 2 # エクスポネンシャルバックオフ（2, 4, 8...秒）
     max_delay_sec: 60
 ```
 
@@ -119,7 +119,7 @@ concurrency:
   max_workers: 2 # 並行ワーカー数（上限到達を抑えるため控えめ）
 ```
 
-プランナー／ワーカー用のシステムプロンプトは `config/prompts/` で調整可能です。
+プランナー／ワーカー用のシステムプロンプトは `.tasuki/config/prompts/` で調整可能です。
 
 ## 使い方
 

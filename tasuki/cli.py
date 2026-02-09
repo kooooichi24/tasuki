@@ -3,7 +3,7 @@
 
 usage:
     tasuki run          # Start an interactive session
-    tasuki init         # Generate config/ in the current directory
+    tasuki init         # Generate .tasuki/config/ in the current directory
 """
 
 import sys
@@ -18,11 +18,11 @@ from tasuki.runner import HarnessRunner
 
 
 def cmd_init(console: Console) -> None:
-    """Copy config/ to the current directory to initialize."""
+    """Copy .tasuki/config/ to the current directory to initialize."""
     try:
         dest = init_project()
         console.print(f"[green]Initialization complete.[/green] Configuration files generated at: {dest}")
-        console.print("Edit config/tasuki.yaml to set repo.path and other settings.")
+        console.print("Edit .tasuki/config/tasuki.yaml to set repo.path and other settings.")
     except FileExistsError as e:
         console.print(f"[yellow]{e}[/yellow]")
     except Exception as e:
@@ -37,7 +37,7 @@ def cmd_run(console: Console) -> None:
     if not repo_path:
         console.print(
             Panel(
-                "Please set the repository path in config/tasuki.yaml under repo.path.\n"
+                "Please set the repository path in .tasuki/config/tasuki.yaml under repo.path.\n"
                 "If you haven't initialized yet, run [bold]tasuki init[/bold].",
                 title="Configuration",
                 border_style="yellow",
@@ -114,7 +114,7 @@ def main() -> None:
                 "[bold]tasuki[/bold] — Multi-agent coordination harness\n\n"
                 "Commands:\n"
                 "  [bold]run[/bold]   Start an interactive session (default)\n"
-                "  [bold]init[/bold]  Generate config/ in the current directory\n"
+                "  [bold]init[/bold]  Generate .tasuki/config/ in the current directory\n"
                 "  [bold]help[/bold]  Show this help message",
                 title="Usage",
                 border_style="blue",
