@@ -16,7 +16,7 @@ def prepare_worker_repo(
     if dest.exists():
         shutil.rmtree(dest)
     if source.is_dir():
-        shutil.copytree(source, dest, ignore=shutil.ignore_patterns(".git"))
+        shutil.copytree(source, dest, ignore=shutil.ignore_patterns(".git", ".tasuki"))
         # If .git exists, copy it as-is to preserve clone status (simplified: copy .git entirely)
         git_src = source / ".git"
         if git_src.exists():

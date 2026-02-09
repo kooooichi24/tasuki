@@ -112,12 +112,11 @@ llm:
 ### その他の設定
 
 ```yaml
-repo:
-  path: /path/to/your/project # ワーカーが作業する対象リポジトリ
-
 concurrency:
   max_workers: 2 # 並行ワーカー数（上限到達を抑えるため控えめ）
 ```
+
+対象リポジトリは `tasuki run` を実行したカレントディレクトリが自動的に使われます。
 
 プランナー／ワーカー用のシステムプロンプトは `.tasuki/config/prompts/` で調整可能です。
 

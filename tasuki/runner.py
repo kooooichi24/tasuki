@@ -27,18 +27,14 @@ def _gather_handoffs_md(task_store: TaskStore, planner_id: str) -> tuple[str | N
 class HarnessRunner:
     def __init__(self, config_path: Path | None = None):
         self.config = load_config(config_path)
-        session_root = self.config.get("session", {}).get("root", "sessions")
+        session_root = self.config.get("session", {}).get("root", ".tasuki/sessions")
         self.session_id = uuid.uuid4().hex[:12]
         self.session_root = Path(session_root) / self.session_id
         self.session_root.mkdir(parents=True, exist_ok=True)
         self.logger = SessionLogger(self.session_root)
         self.task_store = TaskStore(self.session_root)
         self.planner_registry = PlannerRegistry(self.session_root)
-        self.repo_path: Path | None = None
-        repo_cfg = self.config.get("repo", {})
-        path = repo_cfg.get("path")
-        if path:
-            self.repo_path = Path(path).expanduser().resolve()
+        self.repo_path = Path.cwd().resolve()
         self.max_workers = self.config.get("concurrency", {}).get("max_workers", 4)
         self.workers_root = self.session_root / "workers"
 
@@ -80,7 +76,7 @@ class HarnessRunner:
         if not all_new_tasks:
             return []
 
-        if not self.repo_path or not self.repo_path.exists():
+        if not self.repo_path.exists():
             self.logger.system_action("skip_workers", reason="repo path not set or missing")
             return all_new_tasks
 

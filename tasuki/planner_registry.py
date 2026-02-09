@@ -33,7 +33,7 @@ class SubPlanner:
 
 
 class PlannerRegistry:
-    """List of sub-planners within a session. Saved to sessions/<id>/planners.json."""
+    """List of sub-planners within a session. Saved to .tasuki/sessions/<id>/planners.json."""
 
     def __init__(self, session_root: Path):
         self.session_root = Path(session_root)

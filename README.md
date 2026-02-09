@@ -112,12 +112,11 @@ llm:
 ### Other settings
 
 ```yaml
-repo:
-  path: /path/to/your/project # target repository for workers
-
 concurrency:
   max_workers: 2 # keep low to avoid hitting rate limits
 ```
+
+The target repository is always the current working directory where `tasuki run` is executed.
 
 System prompts for planners/workers can be customized in `.tasuki/config/prompts/`.
 

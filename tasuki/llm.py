@@ -83,6 +83,25 @@ def get_retry_config(config: dict | None = None) -> dict:
     }
 
 
+def _resolve_agent_cli(configured_path: str) -> str:
+    """Resolve the Cursor CLI (agent) path. Falls back to common install locations."""
+    import shutil
+
+    found = shutil.which(configured_path)
+    if found:
+        return found
+    # Check common installation paths
+    common_paths = [
+        Path.home() / ".local" / "bin" / "agent",
+        Path("/usr/local/bin/agent"),
+        Path.home() / ".cursor" / "bin" / "agent",
+    ]
+    for p in common_paths:
+        if p.exists() and os.access(p, os.X_OK):
+            return str(p)
+    return configured_path  # Return as-is; will raise FileNotFoundError later
+
+
 def _chat_cursor_cli(
     model: str,
     system: str,
@@ -91,7 +110,9 @@ def _chat_cursor_cli(
 ) -> str:
     """Single chat via Cursor CLI (agent -p). Uses CURSOR_API_KEY or an authenticated session."""
     llm = config.get("llm", {})
-    cli_path = llm.get("cursor_cli_path") or os.environ.get("CURSOR_AGENT_PATH", "agent")
+    cli_path = _resolve_agent_cli(
+        llm.get("cursor_cli_path") or os.environ.get("CURSOR_AGENT_PATH", "agent")
+    )
     timeout = llm.get("cursor_timeout_sec") or 600
     # Combine into a single prompt (CLI cannot pass system separately)
     prompt = f"{system}\n\n---\n\n{user}"
@@ -107,11 +128,7 @@ def _chat_cursor_cli(
     env = os.environ.copy()
     if llm.get("api_key"):
         env["CURSOR_API_KEY"] = str(llm["api_key"])
-    cwd = config.get("repo", {}).get("path")
-    if cwd:
-        cwd = str(Path(cwd).expanduser().resolve())
-    else:
-        cwd = None  # If not set, use the process's current directory
+    cwd = None  # Use the process's current directory
     try:
         out = subprocess.run(
             cmd,

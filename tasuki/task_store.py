@@ -41,7 +41,7 @@ class Task:
 
 
 class TaskStore:
-    """In-memory + file backup. Can be restored from sessions/<id>/tasks.json on restart."""
+    """In-memory + file backup. Can be restored from .tasuki/sessions/<id>/tasks.json on restart."""
 
     def __init__(self, session_root: Path):
         self.session_root = Path(session_root)

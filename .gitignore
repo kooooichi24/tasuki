@@ -1,6 +1,3 @@
-# Sessions (logs, state)
-sessions/
-
 # Python
 __pycache__/
 *.py[cod]

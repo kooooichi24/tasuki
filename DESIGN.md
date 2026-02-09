@@ -44,15 +44,17 @@ tasuki/
 │   ├── config.py          # 設定ファイル探索（.tasuki/config/ → ~/.config/tasuki/ → パッケージ内）
 │   ├── llm.py             # LLM 呼び出し（Cursor CLI / OpenAI API + フォールバック + リトライ）
 │   ├── planner.py         # プランナーエージェント（ルート／サブ共通）
-│   ├── planner_registry.py # サブプランナー登録・永続化（sessions/<id>/planners.json）
+│   ├── planner_registry.py # サブプランナー登録・永続化（.tasuki/sessions/<id>/planners.json）
 │   ├── worker.py          # ワーカーエージェント（ツールループ: run_cmd / read_file / edit_file）
-│   ├── task_store.py      # タスクの出し入れ（sessions/<id>/tasks.json）
+│   ├── task_store.py      # タスクの出し入れ（.tasuki/sessions/<id>/tasks.json）
 │   ├── handoff.py         # ハンドオフ形式の検証・パース
 │   ├── repo.py            # ワーカー用リポジトリコピー管理
 │   ├── runner.py          # 実行ループ: ルート＋サブプランナー→タスク→ワーカー→ハンドオフ→プランナー
 │   ├── log.py             # タイムスタンプ付き JSONL ログ（可観測性）
 │   └── _defaults/         # パッケージ同梱デフォルト設定（tasuki init でコピー）
-└── sessions/              # セッションごとのログ・state（.gitignore）
+└── .tasuki/               # ランタイムディレクトリ（.gitignore）
+    ├── config/            # tasuki init で生成（tasuki.yaml, prompts/）
+    └── sessions/          # tasuki run で生成（セッションごとのログ・state）
 ```
 
 ## LLM 呼び出し
@@ -115,4 +117,4 @@ auto                        ← 2nd fallback (Cursor auto-select)
 - **サブプランナー**: プランナーが委譲スコープを出力すると `PlannerRegistry` に登録。同一ラウンドまたは次ラウンドでそのスコープで 1 回実行し、タスクまたはさらにサブ委譲を出力可能（再帰）
 - **ワーカー**: ツールループで最大 20 イテレーション。`run_cmd`（シェルコマンド実行）、`read_file`（ファイル読み取り）、`edit_file`（全文上書き or 差分置換）を `<tool_call>` ブロックで呼び出し、`<tool_result>` で結果を受け取る。ツールコールなしの応答でハンドオフとして完了。リポジトリ外へのファイルアクセスは拒否
 - **LLM**: Cursor CLI（`agent -p --output-format json -m <model>`）を subprocess で実行。OpenAI API 互換にも切替可。フォールバック・リトライは `tasuki/llm.py` の `chat()` で一元管理
-- **ログ**: 全メッセージ・アクションを `sessions/<id>/harness.log` に JSONL で追記。分析・再生用
+- **ログ**: 全メッセージ・アクションを `.tasuki/sessions/<id>/harness.log` に JSONL で追記。分析・再生用

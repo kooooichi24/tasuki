@@ -22,7 +22,7 @@ def cmd_init(console: Console) -> None:
     try:
         dest = init_project()
         console.print(f"[green]Initialization complete.[/green] Configuration files generated at: {dest}")
-        console.print("Edit .tasuki/config/tasuki.yaml to set repo.path and other settings.")
+        console.print("Edit .tasuki/config/tasuki.yaml to customize settings.")
     except FileExistsError as e:
         console.print(f"[yellow]{e}[/yellow]")
     except Exception as e:
@@ -33,22 +33,14 @@ def cmd_init(console: Console) -> None:
 def cmd_run(console: Console) -> None:
     """Start an interactive session and run multiple rounds."""
     config = load_config()
-    repo_path = config.get("repo", {}).get("path")
-    if not repo_path:
-        console.print(
-            Panel(
-                "Please set the repository path in .tasuki/config/tasuki.yaml under repo.path.\n"
-                "If you haven't initialized yet, run [bold]tasuki init[/bold].",
-                title="Configuration",
-                border_style="yellow",
-            )
-        )
+    resolved_repo = Path.cwd().resolve()
 
     console.print(
         Panel(
             "[bold]Tasuki[/bold] — Multi-agent coordination harness\n"
             "The planner generates tasks, workers execute them using tools (run_cmd / read_file / edit_file), and return handoffs.\n"
-            "Session logs are saved to sessions/<id>/.",
+            f"Target repo: [cyan]{resolved_repo}[/cyan]\n"
+            "Session logs are saved to .tasuki/sessions/<id>/.",
             title="Self-driving codebases harness",
             border_style="blue",
         )

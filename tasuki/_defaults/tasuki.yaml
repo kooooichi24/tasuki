@@ -24,14 +24,9 @@ llm:
 
   # --- Retry settings ---
   retry:
-    max_retries: 3          # Max retries per model
-    base_delay_sec: 2       # Exponential backoff (2, 4, 8... sec)
-    max_delay_sec: 60       # Max delay between retries
-
-# Target repository (workers operate on copies of this)
-repo:
-  path: /tmp/tasuki-test-repo  # e.g. /path/to/your/project
-  # default_branch: main
+    max_retries: 3 # Max retries per model
+    base_delay_sec: 2 # Exponential backoff (2, 4, 8... sec)
+    max_delay_sec: 60 # Max delay between retries
 
 # Concurrent workers (keep low to avoid hitting rate limits)
 concurrency:
@@ -39,5 +34,5 @@ concurrency:
 
 # Session and logging
 session:
-  root: sessions              # Session directory (logs, state)
-  scratchpad_rewrite_interval: 10  # Rewrite planner scratchpad every N turns (0 = disabled)
+  root: .tasuki/sessions # Session directory (logs, state)
+  scratchpad_rewrite_interval: 10 # Rewrite planner scratchpad every N turns (0 = disabled)
