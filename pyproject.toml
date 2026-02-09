@@ -1,0 +1,32 @@
+[project]
+name = "tasuki"
+version = "0.1.0"
+description = "Tasuki — multi-agent coding harness inspired by Cursor's self-driving codebases research"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+dependencies = [
+    "openai>=1.0.0",
+    "pyyaml>=6.0",
+    "rich>=13.0.0",
+]
+
+[project.scripts]
+tasuki = "tasuki.cli:main"
+
+[dependency-groups]
+dev = ["pytest", "ruff"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["tasuki"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]

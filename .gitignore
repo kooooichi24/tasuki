@@ -1,0 +1,25 @@
+# Sessions (logs, state)
+sessions/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+.env
+
+# IDE
+.idea/
+.vscode/
+.cursor/
+*.swp
+
+# Secrets
+config/**/secrets*.yaml
+**/api_key*
+
+# OS
+.DS_Store
