@@ -38,10 +38,6 @@ tasuki/
 ├── DESIGN.md              # 本設計書
 ├── README.md
 ├── pyproject.toml         # 依存関係
-├── .tasuki/
-│   └── config/
-│       ├── prompts/       # プランナー・ワーカー用システムプロンプト
-│       └── tasuki.yaml    # モデル・パス・並行数など
 ├── tasuki/
 │   ├── __init__.py
 │   ├── cli.py             # CLI エントリポイント（tasuki run / init / help）
